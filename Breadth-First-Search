@@ -1,0 +1,30 @@
+from collections import deque
+
+graph ={}
+graph["you"] = ["alice","bob","claire"]
+graph["bob"] = ["anuj","peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom","jonny"]
+graph["anuj"] =[]
+graph['peggy']=[]
+graph['thom']=[]
+graph['jonny']=[]
+def search(name):
+    search_queue = deque() # 새 큐를 생성
+    search_queue+=graph[name] # 모든 이웃을 탐색 큐에 추가
+    searched =[] #이 배열은 이미 확인한 사람을 추적하기 위한 것
+    while search_queue:
+        person = search_queue.popleft() # 큐의 첫번째 사람을 꺼냄
+        if not person in searched: 
+            if person_is_seller(person): # 망고판매상인지 확인
+                print(person,"is a mango seller!")
+                return True
+            else:
+                search_queue+=graph[person] #망고판매상이 아니면 이 사람의 모든 이웃을 탐색목록에 추가
+                searched.append(person)
+    return False #여기까지 도달하면 망고판매상이 존재하지않다는것
+
+def person_is_seller(name): #망고판매상이 누구인지 조절하는 함수
+    return name[-1] == 'm'
+
+search("you")
